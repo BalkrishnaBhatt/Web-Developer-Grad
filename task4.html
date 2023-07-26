@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Courses</title>
+    <!-- Bootstrap CSS -->
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"> -->
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4 mb-3">University Courses</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <ul id="courses-list" class="list-group">
+                    <!-- Courses will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul id="partner-universities" class="list-group">
+                    <!-- Partner universities will be dynamically added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and custom JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript code to fetch and populate the data
+        fetch('https://www.liverpool.ac.uk/app-data/study-abroad/courses.json',
+        {
+            method: "GET", 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        ).then(response => response.json())
+        .then(data => {
+                const coursesList = document.getElementById('courses-list');
+                
+                data.courses.forEach(course => {
+                    const courseLink = document.createElement('a');
+                    courseLink.href = "#";
+                    courseLink.classList.add('list-group-item', 'list-group-item-action');
+                    courseLink.textContent = course;
+                    
+                    // Add click event listener to display partner universities when the course name is clicked
+                    courseLink.addEventListener('click', () => {
+                        const partnerUniversitiesList = document.getElementById('partner-universities');
+                        partnerUniversitiesList.innerHTML = '';
+
+                        course.universities.forEach(partner => {
+                            const partnerItem = document.createElement('li');
+                            partnerItem.classList.add('list-group-item');
+                            partnerItem.textContent = `${partner.name} - ${partner.country}`;
+                            partnerUniversitiesList.appendChild(partnerItem);
+                        });
+                    });
+
+                    coursesList.appendChild(courseLink);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Courses</title>
     <!-- Bootstrap CSS -->
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -26,26 +25,29 @@
     </div>
 
     <!-- Bootstrap JS and custom JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script>
         // JavaScript code to fetch and populate the data
-        fetch('https://www.liverpool.ac.uk/app-data/study-abroad/courses.json',
-        {
-            method: "GET", 
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }
+        fetch('http://localhost:3000/data',
+        // {
+        //     method: "GET", 
+        //     mode: 'cors',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Access-Control-Allow-Origin': '*'
+        //     }
+        // }
         ).then(response => response.json())
         .then(data => {
+                console.log(data, "DATA")
                 const coursesList = document.getElementById('courses-list');
                 
-                data.courses.forEach(course => {
+                data.forEach(course => {
+                    console.log(course, "COURSE", course.universities)
                     const courseLink = document.createElement('a');
                     courseLink.href = "#";
                     courseLink.classList.add('list-group-item', 'list-group-item-action');
-                    courseLink.textContent = course;
+                    courseLink.textContent = course.course;
                     
                     // Add click event listener to display partner universities when the course name is clicked
                     courseLink.addEventListener('click', () => {
@@ -53,6 +55,7 @@
                         partnerUniversitiesList.innerHTML = '';
 
                         course.universities.forEach(partner => {
+                            console.log("partner", partner)
                             const partnerItem = document.createElement('li');
                             partnerItem.classList.add('list-group-item');
                             partnerItem.textContent = `${partner.name} - ${partner.country}`;

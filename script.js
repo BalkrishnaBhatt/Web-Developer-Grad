@@ -18,7 +18,6 @@ function displayStudentList() {
 
   for (let i = 0; i < csvData.length; i++) {
     const columns = csvData[i][0].split(',');
-    console.log(columns, "COL")
     const [id, first_name, last_name, title, email, dob, subject1, subject2] = columns;
 
     const row = document.createElement('tr');

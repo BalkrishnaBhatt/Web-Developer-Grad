@@ -39,11 +39,9 @@
         // }
         ).then(response => response.json())
         .then(data => {
-                console.log(data, "DATA")
                 const coursesList = document.getElementById('courses-list');
                 
                 data.forEach(course => {
-                    console.log(course, "COURSE", course.universities)
                     const courseLink = document.createElement('a');
                     courseLink.href = "#";
                     courseLink.classList.add('list-group-item', 'list-group-item-action');
@@ -55,7 +53,6 @@
                         partnerUniversitiesList.innerHTML = '';
 
                         course.universities.forEach(partner => {
-                            console.log("partner", partner)
                             const partnerItem = document.createElement('li');
                             partnerItem.classList.add('list-group-item');
                             partnerItem.textContent = `${partner.name} - ${partner.country}`;
